@@ -1,0 +1,39 @@
+name: openclaw-oneclick
+
+services:
+  openclaw-gateway:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw-gateway
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      OPENCLAW_PROVIDER: google
+      OPENCLAW_MODEL: ${OPENCLAW_MODEL:-gemini-2.0-flash}
+      OPENCLAW_LOG_LEVEL: ${OPENCLAW_LOG_LEVEL:-info}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}
+    ports:
+      - "127.0.0.1:${OPENCLAW_PORT:-18789}:18789"
+    volumes:
+      - ./config/openclaw.json.template:/app/config/openclaw.json:ro
+      - ./config/agents-defaults.json:/app/config/agents-defaults.json:ro
+      - ./.openclaw:/app/.openclaw
+    healthcheck:
+      test: ["CMD", "sh", "-c", "wget -q -O- http://127.0.0.1:18789/health || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  openclaw-cli:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw-cli
+    depends_on:
+      openclaw-gateway:
+        condition: service_healthy
+    env_file:
+      - .env
+    environment:
+      OPENCLAW_BASE_URL: http://openclaw-gateway:18789
+    entrypoint: ["sleep", "infinity"]
+    profiles: ["cli"]

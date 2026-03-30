@@ -1,0 +1,13 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 18789,
+    "logLevel": "${OPENCLAW_LOG_LEVEL:-info}"
+  },
+  "provider": {
+    "name": "google",
+    "model": "${OPENCLAW_MODEL:-gemini-2.0-flash}",
+    "apiKeyEnv": "GOOGLE_API_KEY"
+  },
+  "agentsDefaultsFile": "/app/config/agents-defaults.json"
+}
