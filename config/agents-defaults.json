@@ -1,0 +1,12 @@
+{
+  "temperature": 0.2,
+  "maxTokens": 1024,
+  "topP": 0.9,
+  "retry": {
+    "maxAttempts": 2,
+    "backoffMs": 500
+  },
+  "timeouts": {
+    "requestMs": 30000
+  }
+}

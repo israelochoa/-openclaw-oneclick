@@ -1,0 +1,21 @@
+# Environment and secrets
+.env
+.env.local
+
+# OpenClaw local data
+.openclaw/
+~/.openclaw/
+
+# Logs
+*.log
+logs/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary
+*.tmp
+*.swp
